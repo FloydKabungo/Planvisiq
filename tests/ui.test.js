@@ -1,0 +1,34 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {JSDOM} from 'jsdom';
+import {indexedDB} from 'fake-indexeddb';
+import {readFileSync} from 'node:fs';
+import {loadWorkspace} from '../js/storage.js';
+const dom=new JSDOM(readFileSync(new URL('../workspace.html',import.meta.url),'utf8'),{url:'https://planvisiq.test/workspace.html'});
+Object.assign(globalThis,{window:dom.window,document:dom.window.document,indexedDB,FormData:dom.window.FormData,FileReader:dom.window.FileReader});
+dom.window.scrollTo=()=>{};dom.window.HTMLElement.prototype.scrollTo=()=>{};dom.window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};dom.window.HTMLDialogElement.prototype.close=function(){this.open=false;};
+const $=s=>document.querySelector(s);const click=s=>$(s).dispatchEvent(new dom.window.MouseEvent('click',{bubbles:true}));const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+await import('../js/app.js');await sleep(150);
+test('complete frontend navigation, project creation, report settings and activity editing',async()=>{
+ assert.match($('#main').textContent,/76.3%/);assert.equal(document.querySelectorAll('.kpi').length,4);
+ assert.equal(document.querySelectorAll('.sidebar nav>.nav-item').length,4);assert.equal(document.querySelectorAll('.journey-step').length,3);
+ click('[data-action="new-report"]');assert.equal(document.querySelectorAll('#dialog .quick-report-card').length,3);click('#dialog [data-action="quick-report"][data-id="121"]');assert.equal($('.report-advanced').open,false);assert.equal($('#report-form [name="title"]').value,'Project progress update');click('[data-action="close-modal"]');
+ click('[data-action="nav"][data-page="reports"]');assert.equal(document.querySelectorAll('.report-template').length,120);
+ assert.equal($('.advanced-catalogue').open,false);
+ click('[data-action="open-report"][data-id="240"]');assert.equal($('#report-template').value,'240');assert.match($('.report-paper').textContent,/Final Project/);
+ $('#report-form [name="title"]').value='Custom board report';click('[data-action="preview-report"]');assert.match($('.report-paper').textContent,/Custom board report/);click('[data-action="close-modal"]');
+ click('[data-action="nav"][data-page="data"]');click('[data-action="library-tab"][data-value="catalog"]');assert.equal(document.querySelectorAll('.catalog-card').length,120);
+ click('[data-action="nav"][data-page="tasks"]');click('[data-action="edit-task"][data-id="SD-001"]');$('#edit-task-form [name="actualFinish"]').value='2026-10-10';$('#edit-task-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await sleep(100);assert.equal($('#dialog'),null);
+ click('[data-action="nav"][data-page="insights"]');click('[data-action="assistant-prompt"]');assert.match($('#messages').textContent,/32 of 48/);
+ click('[data-action="new-project"]');$('#new-project-form [name="name"]').value='New Civil Project';$('#new-project-form [name="client"]').value='Example client';$('#new-project-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await sleep(150);assert.match($('#project-select').selectedOptions[0].textContent,/New Civil Project/);assert.equal(document.querySelectorAll('#project-select option').length,2);assert.match($('#main').textContent,/No activity data/);
+ click('[data-action="nav"][data-page="settings"]');assert.ok($('#settings-form'));assert.match($('#main').textContent,/IndexedDB/);
+});
+test('upload, confirm automatic matches, review missing values and reuse the mappings on the next upload',async()=>{
+ const upload=async name=>{click('[data-action="nav"][data-page="data"]');const event=new dom.window.Event('drop',{bubbles:true,cancelable:true});Object.defineProperty(event,'dataTransfer',{value:{files:[{name,size:110,text:async()=> 'Activity ID,Activity name,Progress,Planned finish\nA1,Inspect vessel,,2026-10-16\nA2,Check valve,100,2026-10-15'}]}});$('[data-dropzone]').dispatchEvent(event);await sleep(50);};
+ await upload('week-one.csv');assert.equal($('#import-kind').value,'11');assert.equal($('.import-options').open,false);assert.equal($('#import-form [name="map-name"]').value,'Activity name');
+ $('#import-form [name="asOf"]').value='2026-10-16';$('#import-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await sleep(100);
+ assert.match($('.review-checks').textContent,/Progress is missing/);assert.match($('#main').textContent,/100%/);
+ click('[data-action="check-record"]');const names=[...document.querySelectorAll('#edit-record-form .mapping-grid label')];names.find(x=>x.textContent.startsWith('Progress')).querySelector('input').value='50';$('#edit-record-form').dispatchEvent(new dom.window.Event('submit',{bubbles:true,cancelable:true}));await sleep(100);assert.match($('.review-summary').textContent,/No basic schedule issues/);
+ click('[data-action="close-modal"]');await upload('week-two.csv');assert.match($('.import-file').textContent,/Saved column matches/);assert.equal($('#import-form [name="map-progress"]').value,'Progress');click('[data-action="close-modal"]');
+ const saved=await loadWorkspace();const p=saved.projects.find(p=>p.name==='New Civil Project');assert.equal(p.importPreferences.length,1);assert.equal(p.datasets.length,2);assert.equal(p.cutoff,'2026-10-16');
+});

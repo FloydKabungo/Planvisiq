@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Planvisiq — Turn project data into clear results. A simple workspace for project planning, reports and presentations."
+    />
+    <meta name="theme-color" content="#153f35" />
+    <title>Planvisiq — Turn project data into clear results.</title>
+    <link rel="icon" href="./favicon.svg" />
+    <link rel="stylesheet" href="./website.css" />
+    <link rel="stylesheet" href="./enterprise.css" />
+    <link rel="stylesheet" href="./pricing.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header wrap">
+      <a class="wordmark" href="./index.html" aria-label="Planvisiq home"
+        ><img src="./favicon.svg" alt="" width="31" height="31" />Planvisiq<span
+          >.</span
+        ></a
+      ><button
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="site-nav"
+        data-menu
+      >
+        Menu <span aria-hidden="true">☰</span>
+      </button>
+      <nav id="site-nav" aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a><a href="#reports">Reports</a
+        ><a href="#teams">For teams</a><a href="#plans">Plans</a
+        ><a href="./learn.html">Learn</a>
+      </nav>
+      <div class="header-actions">
+        <a href="./signin.html">Sign in</a
+        ><a class="btn small" href="./create-organisation.html"
+          >Create organisation ↗</a
+        >
+      </div>
+    </header>
+    <main id="main">
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="tiny-dot"></span> PROJECT INSIGHT. WITHOUT THE
+            COMPLEXITY.
+          </p>
+          <h1>Turn project data<br />into <em>clear results.</em></h1>
+          <p class="hero-intro">
+            Turn your project files into progress you can see and reports you
+            can present. A simpler workspace for the people who keep work
+            moving.
+          </p>
+          <div class="button-row">
+            <a class="btn" href="./create-organisation.html"
+              >Set up your organisation ↗</a
+            ><a class="btn secondary" href="./workspace.html" data-demo
+              >Explore the demo
+              <span class="play-icon" aria-hidden="true">▷</span></a
+            >
+          </div>
+          <p class="quiet hero-note">
+            Try the frontend preview. No payment details needed.
+          </p>
+          <div class="hero-disciplines">
+            <span>Construction</span><span>Civil engineering</span
+            ><span>Refinery shutdowns</span>
+          </div>
+        </div>
+        <div
+          class="hero-visual"
+          aria-label="Illustrative project dashboard with fictional sample data"
+        >
+          <div class="visual-grid" aria-hidden="true"></div>
+          <span class="visual-kicker"
+            >A LITTLE LESS SPREADSHEET.<br />A LOT MORE PERSPECTIVE.</span
+          >
+          <div class="mock-window">
+            <div class="mock-toolbar">
+              <span class="mock-logo">c<span>.</span></span
+              ><span>Project overview</span
+              ><span class="sample-chip">SAMPLE DATA</span>
+            </div>
+            <div class="mock-content">
+              <div class="mock-heading">
+                <div>
+                  <span class="mini-label">NEXTGEN PLANNING</span>
+                  <h2>Cape Town shutdown</h2>
+                </div>
+                <span class="mock-more">•••</span>
+              </div>
+              <div class="mock-kpis">
+                <div>
+                  <span>Overall progress</span
+                  ><strong>76.3<small>%</small></strong
+                  ><span class="mini-trend">Across 48 activities</span>
+                </div>
+                <div>
+                  <span>Activities complete</span
+                  ><strong>32<small> / 48</small></strong
+                  ><span class="mini-trend">A clear view of the work</span>
+                </div>
+              </div>
+              <div class="mock-chart-title">
+                <strong>Every step, in perspective.</strong
+                ><span><i></i> Actual <i class="planned"></i> Planned</span>
+              </div>
+              <svg
+                class="hero-chart"
+                viewBox="0 0 460 170"
+                role="img"
+                aria-label="Illustrative planned and actual progress lines"
+              >
+                <defs>
+                  <linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#94bb91" stop-opacity=".35" />
+                    <stop offset="1" stop-color="#94bb91" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <g stroke="#e6ece5" stroke-dasharray="3 5">
+                  <path d="M16 30H444M16 70H444M16 110H444M16 150H444" />
+                </g>
+                <path
+                  d="M18 143 83 128 153 107 226 83 298 59 369 31 441 13"
+                  fill="none"
+                  stroke="#b6c3ac"
+                  stroke-width="2"
+                  stroke-dasharray="5 5"
+                />
+                <path
+                  d="M18 147 83 136 153 119 226 92 298 76 369 55 441 38V156H18Z"
+                  fill="url(#chart-fill)"
+                />
+                <path
+                  d="M18 147 83 136 153 119 226 92 298 76 369 55 441 38"
+                  fill="none"
+                  stroke="#25765a"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                />
+                <circle
+                  cx="441"
+                  cy="38"
+                  r="5"
+                  fill="#25765a"
+                  stroke="white"
+                  stroke-width="3"
+                />
+              </svg>
+              <div class="chart-dates">
+                <span>01 OCT</span><span>05 OCT</span><span>10 OCT</span>
+              </div>
+              <div class="mock-bottom">
+                <span
+                  ><i class="tiny-dot"></i> Your files. A connected view.</span
+                ><span>View activities ↗</span>
+              </div>
+            </div>
+          </div>
+          <div class="floating-file">
+            <span class="file-symbol">↥</span>
+            <div>
+              <strong>Activity_Schedule.xlsx</strong
+              ><small>From source file to project insight</small>
+            </div>
+            <span class="file-check">✓</span>
+          </div>
+          <div class="floating-report">
+            <div class="report-icon">↗</div>
+            <div>
+              <strong>Ready for the room.</strong
+              ><small>PDF · PowerPoint · Excel · CSV</small>
+            </div>
+          </div>
+          <p class="visual-caption">
+            ILLUSTRATIVE DASHBOARD · FICTIONAL PROJECT
+          </p>
+        </div>
+      </section>
+      <div class="purpose-strip">
+        <div class="wrap">
+          <p>Made for the work behind the work.</p>
+          <span>Project planners</span><span>Shutdown teams</span
+          ><span>Contractors</span><span>Project managers</span>
+        </div>
+      </div>
+      <section id="how-it-works" class="section wrap">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FROM UPLOAD TO UNDERSTANDING</p>
+            <h2>Less setup.<br />More getting somewhere.</h2>
+          </div>
+          <p>
+            You already have the files. Planvisiq helps you turn them into a
+            useful view of what’s happening—and what needs attention.
+          </p>
+        </div>
+        <div class="steps-grid">
+          <article>
+            <span class="step-number">01 / BRING YOUR FILES</span>
+            <div class="step-art files-art">
+              <span class="document-tile csv">CSV</span
+              ><span class="document-tile xls">XLSX</span
+              ><span class="document-tile pdf">DOCS</span>
+            </div>
+            <h3>Start with what you have.</h3>
+            <p>
+              Upload Excel or CSV, check the column matches, and add supporting
+              documents alongside your project records.
+            </p>
+          </article>
+          <article>
+            <span class="step-number">02 / SEE THE PROGRESS</span>
+            <div class="step-art bars-art">
+              <i style="--bar: 34%"></i><i style="--bar: 57%"></i
+              ><i style="--bar: 49%"></i><i style="--bar: 78%"></i
+              ><i style="--bar: 91%"></i><span>Progress, made visible.</span>
+            </div>
+            <h3>Find the story in the numbers.</h3>
+            <p>
+              Explore progress, completed work and overdue activities. Change
+              your charts and group results your way.
+            </p>
+          </article>
+          <article>
+            <span class="step-number">03 / SHARE THE PICTURE</span>
+            <div class="step-art export-art">
+              <div class="mini-slide">
+                <i></i><b>Project close-out</b>
+                <div><span></span><span></span><span></span></div>
+              </div>
+              <span class="export-arrow">↗</span>
+            </div>
+            <h3>Walk into the meeting ready.</h3>
+            <p>
+              Build a branded report, add your commentary, and export the format
+              your stakeholders need.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="reports" class="report-section">
+        <div class="wrap report-layout">
+          <div>
+            <p class="eyebrow">FROM THE SITE TO THE BOARDROOM</p>
+            <h2>The work is done.<br />Now show what it took.</h2>
+            <p>
+              Bring completed activities, progress figures and close-out records
+              into a single report. Give your client the detail, and your
+              leadership the bigger picture.
+            </p>
+            <a class="text-link" href="./workspace.html" data-demo
+              >Try the report studio ↗</a
+            >
+          </div>
+          <div class="format-list">
+            <div>
+              <span class="format-icon">PDF</span>
+              <section>
+                <h3>A report, ready to share</h3>
+                <p>Branded pages for printing or sending.</p>
+              </section>
+              <span>↗</span>
+            </div>
+            <div>
+              <span class="format-icon">PPTX</span>
+              <section>
+                <h3>A story for the meeting</h3>
+                <p>Editable PowerPoint slides, charts and tables.</p>
+              </section>
+              <span>↗</span>
+            </div>
+            <div>
+              <span class="format-icon">XLSX</span>
+              <section>
+                <h3>The numbers behind the story</h3>
+                <p>Excel and CSV for a closer look at the figures.</p>
+              </section>
+              <span>↗</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="teams" class="section wrap teams-layout">
+        <div class="team-demo">
+          <div class="team-demo-head">
+            <span class="org-monogram">N</span>
+            <div>
+              <strong>NextGen Planning</strong
+              ><small>Your organisation, together.</small>
+            </div>
+            <span class="sample-chip">DEMO</span>
+          </div>
+          <div class="member-preview">
+            <span class="person-avatar">AM</span>
+            <div>
+              <strong>Alex Morgan</strong><small>Company account</small>
+            </div>
+            <span class="role-label">Owner</span>
+          </div>
+          <div class="member-preview">
+            <span class="person-avatar sage">SJ</span>
+            <div><strong>Sam Jacobs</strong><small>Planning team</small></div>
+            <span class="role-label">Planner</span>
+          </div>
+          <div class="member-preview">
+            <span class="person-avatar sand">LN</span>
+            <div>
+              <strong>Leigh Naidoo</strong><small>Project oversight</small>
+            </div>
+            <span class="role-label">Viewer</span>
+          </div>
+          <a class="invite-preview" href="./create-organisation.html"
+            >+ Build your team’s workspace</a
+          >
+        </div>
+        <div>
+          <p class="eyebrow">ONE COMPANY. ONE PLACE TO START.</p>
+          <h2>Your organisation.<br />Your people.<br />A shared direction.</h2>
+          <p>
+            The company creates a workspace and chooses a subscription.
+            Employees join by invitation, with their own accounts and the right
+            role for their work.
+          </p>
+          <ul class="check-list">
+            <li>One owner to manage the company account</li>
+            <li>Admin, planner and viewer roles</li>
+            <li>A familiar sign-in for everyone on the team</li>
+          </ul>
+          <p class="quiet">
+            Explore the setup flow now. Shared accounts, invitations and billing
+            will be connected in the backend stage.
+          </p>
+        </div>
+      </section>
+      <section id="plans" class="section plans-section">
+        <div class="wrap">
+          <div class="center-heading">
+            <p class="eyebrow">ONE COMPANY. A LICENCE FOR EACH PERSON.</p>
+            <h2>Simple fees.<br />A clear monthly total.</h2>
+            <p>
+              Choose a company plan, then add the people who use Planvisiq.
+              Count people who will log in, not your entire workforce.
+            </p>
+          </div>
+          <div class="plans-grid">
+            <article class="plan-card">
+              <span class="eyebrow">ESSENTIALS</span>
+              <h3>R499<small> / company / month</small></h3>
+              <p>A focused workspace for a small planning team.</p>
+              <ul>
+                <li>Up to 10 active users</li>
+                <li>Company workspace and reusable styles</li>
+                <li>Charts, reports and presentation studio</li>
+                <li>PDF, PowerPoint, Excel and CSV exports</li>
+              </ul>
+              <p class="plan-licence-note">
+                Plus R149/full user or R49/viewer each month.
+              </p>
+              <a
+                class="btn secondary"
+                href="./create-organisation.html?plan=essentials"
+                >Preview Essentials ↗</a
+              >
+            </article>
+            <article class="plan-card highlighted">
+              <span class="eyebrow">TEAM</span>
+              <h3>R1 499<small> / company / month</small></h3>
+              <p>More room for growing project teams.</p>
+              <ul>
+                <li>Up to 50 active users</li>
+                <li>Company workspace and reusable styles</li>
+                <li>Charts, reports and presentation studio</li>
+                <li>PDF, PowerPoint, Excel and CSV exports</li>
+              </ul>
+              <p class="plan-licence-note">
+                Plus R149/full user or R49/viewer each month.
+              </p>
+              <a class="btn" href="./create-organisation.html?plan=team"
+                >Preview Team ↗</a
+              >
+            </article>
+            <article class="plan-card">
+              <span class="eyebrow">ENTERPRISE</span>
+              <h3>R3 999<small> / company / month</small></h3>
+              <p>A company-wide workspace for larger teams.</p>
+              <ul>
+                <li>Up to 200 active users</li>
+                <li>Company workspace and reusable styles</li>
+                <li>Charts, reports and presentation studio</li>
+                <li>PDF, PowerPoint, Excel and CSV exports</li>
+              </ul>
+              <p class="plan-licence-note">
+                Plus R149/full user or R49/viewer each month.
+              </p>
+              <a
+                class="btn secondary"
+                href="./create-organisation.html?plan=enterprise"
+                >Preview Enterprise ↗</a
+              >
+            </article>
+          </div>
+          <div class="pricing-calculator">
+            <div>
+              <p class="eyebrow">BUILD YOUR MONTHLY ESTIMATE</p>
+              <h3>Pay for the team using it.</h3>
+              <p>
+                The company fee covers the platform. User licences cover each
+                person’s access. Both appear on one invoice.
+              </p>
+              <ul>
+                <li>No separate joining or user-ID fee.</li>
+                <li>
+                  Draft invitations and deactivated users do not count in the
+                  next-period estimate.
+                </li>
+                <li>
+                  Recipients who only receive exported files do not need
+                  accounts.
+                </li>
+              </ul>
+              <p class="quiet">
+                All plans use the same core reporting tools. More than 200 users
+                needs a custom quote. Cloud collaboration, permissions and
+                payments are part of the backend release.
+              </p>
+            </div>
+            <form data-price-form data-calculator class="form-stack">
+              <label class="field"
+                >Company plan<select name="plan">
+                  <option value="auto">Recommend from my user count</option>
+                  <option value="essentials">
+                    Essentials · up to 10 users
+                  </option>
+                  <option value="team">Team · up to 50 users</option>
+                  <option value="enterprise">
+                    Enterprise · up to 200 users
+                  </option>
+                </select></label
+              >
+              <div class="licence-fields">
+                <label class="field"
+                  >Full users<input
+                    name="fullUsers"
+                    type="number"
+                    min="1"
+                    max="10000"
+                    step="1"
+                    required
+                    value="5"
+                  /><small
+                    >Owner, admins and planners · R149/user/month. Include the
+                    owner.</small
+                  ></label
+                ><label class="field"
+                  >Viewer users<input
+                    name="viewerUsers"
+                    type="number"
+                    min="0"
+                    max="10000"
+                    step="1"
+                    required
+                    value="2"
+                  /><small
+                    >Read-only workspace access · R49/user/month.</small
+                  ></label
+                >
+              </div>
+              <label class="field"
+                >Billing cycle<select name="cycle">
+                  <option value="Monthly" selected>Monthly</option>
+                  <option value="Annual">Annual · 10% off, paid upfront</option>
+                </select></label
+              >
+              <div data-price-output aria-live="polite"></div>
+              <a
+                class="btn full"
+                data-price-start
+                href="./create-organisation.html"
+                >Use this setup →</a
+              >
+            </form>
+          </div>
+          <p class="quiet centered">
+            Proposed launch prices · ZAR · Excludes applicable tax · Monthly
+            licences, not a once-off purchase. No live billing yet.
+          </p>
+        </div>
+      </section>
+      <section class="section wrap faq-layout">
+        <div>
+          <p class="eyebrow">A FEW THINGS TO KNOW</p>
+          <h2>Clear from<br />the start.</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>
+              Does every employee need a separate subscription?<span>+</span>
+            </summary>
+            <p>
+              The proposed model is one company subscription with individual
+              employee accounts. The company owner manages the plan and team
+              access. Final pricing and user limits are still to be decided.
+            </p>
+          </details>
+          <details>
+            <summary>How will my team sign in?<span>+</span></summary>
+            <p>
+              Employees will use their organisation’s workspace address and
+              their own work email and password. The company owner or an admin
+              will invite them; shared company passwords are not needed.
+            </p>
+          </details>
+          <details>
+            <summary>
+              Can I try it before creating an organisation?<span>+</span>
+            </summary>
+            <p>
+              Yes. Open the demo to explore a fictional shutdown project, upload
+              a spreadsheet, customise charts and export reports. Demo records
+              are saved only in your browser.
+            </p>
+          </details>
+          <details>
+            <summary>What is available in this version?<span>+</span></summary>
+            <p>
+              This is a working frontend with spreadsheet imports, local
+              dashboards and report exports. Company registration and sign-in
+              are interactive previews. Live AI, secure accounts, email
+              invitations, billing and shared cloud storage will follow with the
+              backend.
+            </p>
+          </details>
+        </div>
+      </section>
+      <section class="wrap closing-cta">
+        <div>
+          <p class="eyebrow">A CLEARER WAY TO WORK</p>
+          <h2>Bring your next project<br />into <em>focus.</em></h2>
+        </div>
+        <a class="btn light" href="./create-organisation.html"
+          >Create your organisation ↗</a
+        >
+      </section>
+    </main>
+    <footer class="site-footer wrap">
+      <a class="wordmark" href="./index.html"
+        ><img src="./favicon.svg" alt="" width="28" height="28" />Planvisiq<span
+          >.</span
+        ></a
+      >
+      <p>Turn project data into clear results.</p>
+      <a href="./learn.html">Learn Planvisiq</a
+      ><a href="./signin.html">Sign in</a
+      ><span class="quiet">Frontend preview · 2026</span>
+    </footer>
+    <script type="module" src="./js/website.js"></script>
+  </body>
+</html>

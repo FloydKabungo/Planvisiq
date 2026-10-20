@@ -1,0 +1,13 @@
+import {parseCSV,autoMap,date} from './engine.js';
+export async function readFile(file){
+ if(file.size>10*1024*1024)throw new Error('Please choose a file smaller than 10 MB.');
+ const ext=file.name.split('.').pop().toLowerCase();
+ if(ext==='csv'||ext==='tsv'){const rows=parseCSV(await file.text());return [{name:'Data',rows,mapping:autoMap(Object.keys(rows[0]))}];}
+ if(ext==='xlsx'){
+ if(!globalThis.ExcelJS)throw new Error('The Excel reader is unavailable. Try reloading the app.');
+ const book=new ExcelJS.Workbook();await book.xlsx.load(await file.arrayBuffer());
+ return book.worksheets.map(sheet=>{const matrix=[];sheet.eachRow({includeEmpty:false},row=>{const values=[];for(let c=1;c<=sheet.columnCount;c++){const v=row.getCell(c).value;values.push(typeof v==='number'&&row.getCell(c).numFmt?.includes('%')?v*100:v instanceof Date?v.toISOString().slice(0,10):v&&typeof v==='object'?(v.result??v.text??v.richText?.map(p=>p.text).join('')??''):v??'');}matrix.push(values);});if(matrix.length<2)return null;const seen={};const headers=matrix.shift().map((v,i)=>{const h=String(v).trim()||`Column ${i+1}`;seen[h]=(seen[h]||0)+1;return seen[h]>1?`${h} (${seen[h]})`:h;});const rows=matrix.map(values=>Object.fromEntries(headers.map((h,i)=>[h,values[i]??''])));return {name:sheet.name,rows,mapping:autoMap(headers)};}).filter(Boolean);
+ }
+ throw new Error('Use an .xlsx, .csv or .tsv file for data. Add PDFs, documents and photos as supporting files.');
+}
+export function validateRows(rows,mapping,catalogId){const issues=[];if(!rows.length)issues.push('No data rows found.');if(rows.length>5000)issues.push('This frontend supports up to 5,000 rows per dataset.');if(catalogId===11){if(!mapping.name)issues.push('Choose a task name column.');if(!mapping.id)issues.push('Choose a task ID column.');if(mapping.id){const ids=rows.map(r=>String(r[mapping.id]??'').trim());if(ids.some(i=>!i))issues.push('Task IDs cannot be empty.');if(new Set(ids).size!==ids.length)issues.push('Task IDs must be unique within an activity schedule.');}for(const key of ['progress','plannedProgress'])if(mapping[key]&&rows.some(r=>r[mapping[key]]!==''&&(Number.isNaN(Number(String(r[mapping[key]]).replace('%','')))||Number(String(r[mapping[key]]).replace('%',''))<0||Number(String(r[mapping[key]]).replace('%',''))>100)))issues.push('Progress must be between 0 and 100.');for(const key of ['plannedStart','plannedFinish','actualFinish'])if(mapping[key]&&rows.some(r=>r[mapping[key]]&&!date(r[mapping[key]])))issues.push('Use YYYY-MM-DD for dates. Convert ambiguous dates in your source file.');}return [...new Set(issues)];}
