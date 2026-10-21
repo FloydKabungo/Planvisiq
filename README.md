@@ -187,7 +187,9 @@ The 33 checks cover core calculations, missing-data handling, CSV parsing, dates
 ExcelJS 4.4.0, pdf-lib 1.17.1, PptxGenJS 4.0.1 JSZip 3.10.1, @pdf-lib/fontkit 1.1.1, and DejaVu fonts are bundled under `vendor/`. Their licence files are included. Use the bundled versions for this first frontend; security reviews and dependency updates are part of production readiness.
 
 
-### Learn Planvisiq (v0.7.0)
-Open `learn.html` for the 2-minute-17-second narrated 3D walkthrough. It includes ten seekable chapters, captions, a transcript, eight section guides and direct workspace links. The video is self-hosted in `media/`; no video-service subscription, embedded player or API is needed.
+### Learn Planvisiq (v0.8.0)
+Open `learn.html` for the 3-minute-16-second narrated 3D walkthrough. It includes ten seekable chapters, captions, a transcript, eight section guides and direct workspace links. The video is self-hosted in `media/`; no video-service subscription, embedded player or API is needed.
 
 To recreate the animation, see `docs/WALKTHROUGH.md`. Keep the entire `media/` folder when uploading to GitHub Pages or another static host.
+
+The 1080p walkthrough uses the original saved Runway narration without local speed-up or loudness processing. Saved chapter audio is included so rebuilding needs no additional voice credits.

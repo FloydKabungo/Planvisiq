@@ -1,6 +1,6 @@
 {
   "name": "planvisiq-planning-frontend",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "type": "module",
   "description": "Plain HTML, CSS and JavaScript project reporting workspace",

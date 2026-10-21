@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Render Planvisiq's narrated, perspective-projected 3D tour without paid services.
-Requires Python + Pillow + NumPy, FFmpeg compiled with libflite, and ffprobe.
+"""Render Planvisiq's narrated, perspective-projected 3D tour from saved natural narration.
+Requires Python + Pillow + NumPy, FFmpeg and the included media/narration MP3 files.
 Run from any directory: python3 scripts/render-walkthrough.py
 """
 from pathlib import Path
@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'media'; OUT.mkdir(exist_ok=True)
 DATA=json.loads((ROOT/'scripts/walkthrough.json').read_text())
-W,H,FPS=1280,720,24
+W,H,FPS=1920,1080,24
 FONT=ROOT/'vendor/fonts/DejaVuSans.ttf'; BOLD=ROOT/'vendor/fonts/DejaVuSans-Bold.ttf'
 fonts={}
 def font(size,bold=False):
@@ -77,73 +77,43 @@ base=np.empty((H,W,3),dtype=np.uint8)
 for k,(a,b) in enumerate(zip([248,249,244],[225,237,209])):base[:,:,k]=a+(b-a)*glow
 BASE=Image.fromarray(base)
 shadow=Image.new('RGBA',(W,H));ds=ImageDraw.Draw(shadow);ds.ellipse((695,475,1220,555),fill=(28,66,45,30));shadow=shadow.filter(ImageFilter.GaussianBlur(23));BASE.paste(shadow,(0,0),shadow)
+from walkthrough_visuals import render_frame
 def frame(ci,sec,duration,captions):
- im=BASE.copy();d=ImageDraw.Draw(im);ch=DATA[ci];a=-.21+.10*math.sin(sec*.5);b=.13+.045*math.cos(sec*.4)
- R=np.array([[math.cos(a),0,math.sin(a)],[0,1,0],[-math.sin(a),0,math.cos(a)]])@np.array([[1,0,0],[0,math.cos(b),-math.sin(b)],[0,math.sin(b),math.cos(b)]])
- rise=min(sec/.8,1);rise=1-(1-rise)**3
- def project(p):
-  q=np.array(p)@R.T;f=850/(850-q[:,2]);return np.column_stack([925+q[:,0]*f,325-q[:,1]*f+(1-rise)*36]),q[:,2]
- faces=[]
- def box(cx,cy,cz,sx,sy,sz,color):
-  pts=[(cx+i*sx/2,cy+j*sy/2,cz+k*sz/2) for i,j,k in [(-1,-1,-1),(1,-1,-1),(1,1,-1),(-1,1,-1),(-1,-1,1),(1,-1,1),(1,1,1),(-1,1,1)]]
-  xy,z=project(pts)
-  for ids,shade in [([0,1,2,3],.66),([0,4,7,3],.78),([1,2,6,5],.84),([0,1,5,4],.7),([3,7,6,2],1.05),([4,5,6,7],1)]:
-   faces.append((float(np.mean(z[ids])),[tuple(v) for v in xy[ids]],tuple(min(255,int(v*shade)) for v in color)))
- # Floating solid document stack and main screen.
- for i in range(3):box(35-i*12,-2+i*9,-38-i*13,475,327,8,(206-i*7,223-i*7,187-i*7))
- bob=math.sin(sec*1.25)*5
- box(0,bob,0,480,333,16,(250,251,245))
- for z,poly,col in sorted(faces):d.polygon(poly,fill=col)
- # Perspective texture mapping onto the screen's front face.
- quad,_=project([(-240,166.5+bob,8),(240,166.5+bob,8),(240,-166.5+bob,8),(-240,-166.5+bob,8)])
- minx,miny=np.floor(quad.min(axis=0)).astype(int);maxx,maxy=np.ceil(quad.max(axis=0)).astype(int)
- dest=quad-np.array([minx,miny]);src=[(0,0),(620,0),(620,430),(0,430)];A=[];B=[]
- for (u,v),(sx,sy) in zip(dest,src):A.extend([[u,v,1,0,0,0,-sx*u,-sx*v],[0,0,0,u,v,1,-sy*u,-sy*v]]);B.extend([sx,sy])
- coeff=np.linalg.solve(A,B)
- texture=TEXTURES[ci].transform((maxx-minx,maxy-miny),Image.Transform.PERSPECTIVE,coeff,Image.Resampling.BILINEAR,fillcolor=(255,254,251))
- mask=Image.new('L',texture.size);ImageDraw.Draw(mask).polygon([tuple(p) for p in dest],fill=255);im.paste(texture,(minx,miny),mask)
- d=ImageDraw.Draw(im)
- # Small foreground pillars make true depth and lighting easy to see.
- faces=[]
- for j,h in enumerate([45,72,104]):
-  h=h*(.85+.15*math.sin(sec*.8+j));box(140+j*38,-179+h/2,68,25,h,28,[GREEN,(126,166,101),LIME][j])
- for z,poly,col in sorted(faces):d.polygon(poly,fill=col)
- d.rounded_rectangle((64,43,99,78),8,fill=GREEN);d.text((73,46),'p',font=font(25,True),fill='white');d.text((111,47),'Planvisiq',font=font(24,True),fill=INK)
- d.text((64,132),f'{ci+1:02d} / {len(DATA):02d}   {ch["label"]}',font=font(13,True),fill=GREEN)
- lines=wrap(ch['title'],510,45,True)
- for j,l in enumerate(lines):d.text((61,171+j*54),l,font=font(45,True),fill=INK)
- sy=194+len(lines)*54
- for j,l in enumerate(ch['steps']):
-  yy=sy+j*45;d.ellipse((64,yy+6,88,yy+30),fill=LIME);d.text((71,yy+8),str(j+1),font=font(12,True),fill=INK);d.text((102,yy+3),l,font=font(20),fill=MUTED)
- for j,l in enumerate(wrap(ch['outcome'],525,19,True)):d.text((64,488+j*27),l,font=font(19,True),fill=GREEN)
- d.text((820,552),'3D ILLUSTRATION · SAMPLE DATA',font=font(11,True),fill=MUTED)
- active=next((c['text'] for c in captions if c['start']<=sec<c['end']),None)
- if active:
-  lines=wrap(active,1115,22);top=603
-  for j,l in enumerate(lines[:2]):d.text(((W-font(22).getlength(l))/2,top+j*29),l,font=font(22),fill=INK)
- for j in range(len(DATA)):
-  x0=64+j*116;d.rounded_rectangle((x0,690,x0+105,694),2,fill='#dce5d4')
-  if j<=ci:d.rounded_rectangle((x0,690,x0+max(1,int(105*(min(sec/duration,1) if j==ci else 1))),694),2,fill=GREEN)
- return im
+ return render_frame(ci,DATA[ci],sec,duration,captions)
 
 def stamp(seconds):
  ms=round(seconds*1000);return f'{ms//3600000:02}:{ms//60000%60:02}:{ms//1000%60:02}.{ms%1000:03}'
 with tempfile.TemporaryDirectory(prefix='planvisiq-video-') as tmp:
  tmp=Path(tmp);clips=[];chapters=[];allcaps=[];elapsed=0;contact=[]
  for ci,ch in enumerate(DATA):
-  # Each short sentence is synthesised individually for exact caption timing.
+  # Reuse the saved natural voiceover. No API calls or robotic fallback.
+  voicefile=OUT/'narration'/f'{ci+1:02}.mp3'
+  if not voicefile.exists():raise FileNotFoundError(f'Missing saved narration: {voicefile}')
+  wav=tmp/f'natural-{ci}.wav'
+  run(['ffmpeg','-y','-v','error','-i',str(voicefile),'-ar','48000','-ac','1','-c:a','pcm_s16le',str(wav)])
+  with wave.open(str(wav)) as w:
+   dur=w.getnframes()/w.getframerate();pcm=w.readframes(w.getnframes())
+  audio_parts=[pcm];captions=[];at=.45+dur
+  # Snap caption breaks to nearby pauses to keep the natural delivery intact.
+  samples=np.frombuffer(pcm,dtype=np.int16).astype(float)
+  block=480;energy=np.array([np.sqrt(np.mean(v*v)) for v in np.array_split(samples[:len(samples)//block*block],len(samples)//block)])
+  spoken=np.where(energy>150)[0];begin=float(spoken[0]/100) if len(spoken) else 0;finish=float(spoken[-1]/100) if len(spoken) else dur
+  pauses=[];gap=None
+  for j,e in enumerate(energy):
+   if e<150 and gap is None:gap=j
+   elif e>=150 and gap is not None:
+    if j-gap>=12:pauses.append((j+gap)/200)
+    gap=None
   import re
-  sentences=re.split(r'(?<=[.!?])\s+',ch['voice']);captions=[];audio_parts=[];at=.45
-  for si,s in enumerate(sentences):
-   textfile=tmp/f'speech-{ci}-{si}.txt';textfile.write_text(s)
-   wav=tmp/f'speech-{ci}-{si}.wav'
-   run(['ffmpeg','-y','-v','error','-f','lavfi','-i',f'flite=textfile={textfile}:voice=slt','-af','atempo=1.08','-ar','48000','-ac','1',str(wav)])
-   with wave.open(str(wav)) as w:dur=w.getnframes()/w.getframerate();audio_parts.append(w.readframes(w.getnframes()))
-   # Split longer sentences into readable cues while preserving all narration.
-   words=s.split();parts=max(1,math.ceil(len(words)/17));chunks=[list(v) for v in np.array_split(words,parts)];pos=at
-   for chunk in chunks:
-    dd=dur*len(chunk)/len(words);captions.append({'start':pos,'end':pos+dd,'text':' '.join(chunk)});pos+=dd
-   at+=dur
+  sentences=re.split(r'(?<=[.!?])\s+',ch['voice']);chunks=[]
+  for sentence in sentences:
+   words=sentence.split();parts=max(1,math.ceil(len(words)/17));chunks.extend(' '.join(v) for v in np.array_split(words,parts))
+  weights=[len(v) for v in chunks];total=sum(weights);position=begin;consumed=0
+  for j,text in enumerate(chunks):
+   consumed+=weights[j];target=begin+(finish-begin)*consumed/total
+   candidates=[t for t in pauses if position+.7<t<finish and abs(t-target)<1.2]
+   stop=min(candidates,key=lambda t:abs(t-target)) if candidates and j<len(chunks)-1 else target
+   stop=max(position+.3,stop);captions.append({'start':.45+position,'end':.45+stop,'text':text});position=stop
   duration=math.ceil((at+.55)*FPS)/FPS;audio=tmp/f'chapter-{ci}.wav'
   with wave.open(str(audio),'wb') as w:
    w.setnchannels(1);w.setsampwidth(2);w.setframerate(48000);w.writeframes(b'\0'*int(.45*48000)*2+b''.join(audio_parts)+b'\0'*int((duration-at)*48000)*2)
@@ -152,7 +122,7 @@ with tempfile.TemporaryDirectory(prefix='planvisiq-video-') as tmp:
   representative=frame(ci,3,duration,captions);contact.append(representative.resize((640,360)))
   if ci==0:representative.save(OUT/'planvisiq-walkthrough-poster.jpg',quality=92)
   clip=tmp/f'clip-{ci}.mp4';clips.append(clip)
-  proc=subprocess.Popen(['ffmpeg','-y','-v','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio),'-c:v','libx264','-preset','veryfast','-crf','26','-pix_fmt','yuv420p','-c:a','aac','-b:a','96k','-t',str(duration),str(clip)],stdin=subprocess.PIPE)
+  proc=subprocess.Popen(['ffmpeg','-y','-v','error','-f','rawvideo','-vcodec','rawvideo','-pix_fmt','rgb24','-s',f'{W}x{H}','-r',str(FPS),'-i','-','-i',str(audio),'-c:v','libx264','-preset','veryfast','-crf','20','-pix_fmt','yuv420p','-c:a','aac','-b:a','192k','-t',str(duration),str(clip)],stdin=subprocess.PIPE)
   try:
    for n in range(round(duration*FPS)):proc.stdin.write(frame(ci,n/FPS,duration,captions).tobytes())
   finally:proc.stdin.close()

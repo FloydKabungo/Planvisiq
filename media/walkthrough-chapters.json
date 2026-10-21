@@ -10,10 +10,10 @@
     ],
     "outcome": "From project files to a finished presentation.",
     "scene": "dashboard",
-    "voice": "Welcome to Planvisiq. Turn project data into clear results. This tour takes you from your first project file to a report or presentation ready to share.",
+    "voice": "Welcome to Planvisiq. Turn project data into clear results. In this quick tour, you will go from a project file to a report, or a presentation ready to share.",
     "start": 0,
-    "end": 10.25,
-    "duration": 10.25
+    "end": 13.792,
+    "duration": 13.792
   },
   {
     "id": "organisation",
@@ -27,9 +27,9 @@
     "outcome": "One place to organise your team.",
     "scene": "team",
     "voice": "Create an organisation, or find your company on the sign in page. Organisation is where you manage people, roles, user IDs and licence estimates. Accounts and payments are still previews, so use sample details.",
-    "start": 10.25,
-    "end": 24.0,
-    "duration": 13.75
+    "start": 13.792,
+    "end": 34.625,
+    "duration": 20.833
   },
   {
     "id": "project",
@@ -43,9 +43,9 @@
     "outcome": "Keep each job’s files and results together.",
     "scene": "project",
     "voice": "In the workspace, select New project. Enter the project and client, then choose a reporting date. Use the project selector to move between jobs. My project brings the selected job's results together.",
-    "start": 24.0,
-    "end": 37.5,
-    "duration": 13.5
+    "start": 34.625,
+    "end": 53.792,
+    "duration": 19.167
   },
   {
     "id": "files",
@@ -59,9 +59,9 @@
     "outcome": "Your spreadsheet becomes project records.",
     "scene": "files",
     "voice": "Open Files and upload Excel or CSV. Confirm the file type and column matches for each worksheet, then import. You can also attach supporting documents. These stay with the project, but their contents are not automatically read.",
-    "start": 37.5,
-    "end": 52.083,
-    "duration": 14.583
+    "start": 53.792,
+    "end": 75.125,
+    "duration": 21.333
   },
   {
     "id": "review",
@@ -75,9 +75,9 @@
     "outcome": "More reliable figures, with a source to check.",
     "scene": "review",
     "voice": "Check the results after importing. Review missing values, conflicting dates and progress figures. Open a flagged record to correct it. Saving creates a new version, so earlier data stays available.",
-    "start": 52.083,
-    "end": 65.25,
-    "duration": 13.167
+    "start": 75.125,
+    "end": 93.542,
+    "duration": 18.417
   },
   {
     "id": "charts",
@@ -91,9 +91,9 @@
     "outcome": "Understand the job without building a dashboard.",
     "scene": "dashboard",
     "voice": "Return to My project for progress charts and completed work. Change chart options, groupings or scope to focus the view. Under More tools, Activities lets you inspect and update the individual jobs behind the figures.",
-    "start": 65.25,
-    "end": 79.292,
-    "duration": 14.042
+    "start": 93.542,
+    "end": 112.292,
+    "duration": 18.75
   },
   {
     "id": "reports",
@@ -107,9 +107,9 @@
     "outcome": "A report built from the selected project.",
     "scene": "report",
     "voice": "In Reports, choose a progress update, weekly report or close out pack. Check the figures, customise the options and add your commentary. Save a draft or revision to keep a record of what you prepared.",
-    "start": 79.292,
-    "end": 92.292,
-    "duration": 13.0
+    "start": 112.292,
+    "end": 130.417,
+    "duration": 18.125
   },
   {
     "id": "slides",
@@ -123,9 +123,9 @@
     "outcome": "An editable presentation for your stakeholders.",
     "scene": "slides",
     "voice": "Open Slides and create a project deck. Edit text, charts and tables, add or reorder slides, and choose a theme. Add speaker notes, present from the app, or export an editable PowerPoint for your meeting.",
-    "start": 92.292,
-    "end": 105.083,
-    "duration": 12.792
+    "start": 130.417,
+    "end": 149.708,
+    "duration": 19.292
   },
   {
     "id": "assistant",
@@ -139,9 +139,9 @@
     "outcome": "Guidance you can trace back to your data.",
     "scene": "assistant",
     "voice": "Open Assistant beside your work to explore progress and exceptions. Check its source links before using a suggestion. The current assistant uses local calculations and guided responses. Live AI is planned for the backend release.",
-    "start": 105.083,
-    "end": 119.125,
-    "duration": 14.042
+    "start": 149.708,
+    "end": 170.833,
+    "duration": 21.125
   },
   {
     "id": "export",
@@ -155,8 +155,8 @@
     "outcome": "Upload. Check. Report. Share.",
     "scene": "export",
     "voice": "Export PDF for a finished report, PowerPoint for slides, or Excel and CSV for the figures. Settings holds branding and workspace backups. This version saves in your browser, so export a backup regularly. You're ready: upload, check, report and share.",
-    "start": 119.125,
-    "end": 136.542,
-    "duration": 17.417
+    "start": 170.833,
+    "end": 195.542,
+    "duration": 24.708
   }
 ]

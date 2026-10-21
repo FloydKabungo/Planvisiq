@@ -4,3 +4,5 @@ dist/
 !.openai/hosting.json
 *.log
 .DS_Store
+__pycache__/
+*.pyc
